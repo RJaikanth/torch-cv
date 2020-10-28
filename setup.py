@@ -3,6 +3,13 @@ from setuptools import setup, find_packages
 with open("README.rst", "r") as fh:
     long_description = fh.read()
 
+dependencies = [
+    "pytest==6.1.1",
+    "pytest-runner==5.2",
+    "PyYAML==5.3.1",
+    "wheel"
+]
+
 setup(
     name="torch-cv",
     version="0.0.2",
@@ -21,5 +28,6 @@ setup(
         "Operating System :: Unix"
     ],
     python_requires=">=3.7",
-    scripts=["scripts/tcv"]
+    scripts=["scripts/tcv"],
+    install_requires=dependencies
 )

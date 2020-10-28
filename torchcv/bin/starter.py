@@ -9,7 +9,7 @@ FUNCTION = os.environ["FUNCTION"]
 
 def call():
     if FUNCTION == "preprocess":
-        preprocess()
+        preprocess(CONFIG)
 
 
 if __name__ == '__main__':
