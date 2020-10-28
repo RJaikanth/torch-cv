@@ -120,13 +120,14 @@ if [ -n "$PYTHON_FILE" ]; then
   true)
     mkdir -p "$LOG_PATH"
     echo "Logging to $LOG_PATH/run_$TIME.log"
+    echo ""
     python "$PYTHON_FILE" 2>&1 | tee "$LOG_PATH/run_$TIME.log"
     ;;
   false)
     python "$PYTHON_FILE"
     ;;
   esac
-  exit 1
+  exit 0
 fi
 
 # For in-built functions.
@@ -145,6 +146,7 @@ if [ -n "$FUNCTION" ]; then
   true)
     mkdir -p "$LOG_PATH"
     echo "Logging to $LOG_PATH/run_$TIME.log"
+    echo ""
     python -m torchcv.bin.starter 2>&1 | tee "$LOG_PATH/run_$TIME.log"
         ;;
   false)
@@ -152,5 +154,5 @@ if [ -n "$FUNCTION" ]; then
     ;;
   esac
 
-  exit 1
+  exit 0
 fi

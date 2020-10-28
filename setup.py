@@ -4,10 +4,14 @@ with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 dependencies = [
-    "pytest==6.1.1",
-    "pytest-runner==5.2",
-    "PyYAML==5.3.1",
-    "wheel"
+    "torch~=1.7.0",
+    "setuptools~=50.3.2",
+    "opencv-python~=4.4.0.44",
+    "numpy~=1.19.2",
+    "PyYAML~=5.3.1",
+    "pandas~=1.1.3",
+    "joblib~=0.17.0",
+    "scikit-learn~=0.23.2"
 ]
 
 setup(
