@@ -1,8 +1,7 @@
 import pytest
 
-from .data.create_configs import *
 from torchcv.config import read_config
-
+from .data.create_configs import *
 
 TEMP = "/tmp/temp.yml"
 
@@ -23,4 +22,3 @@ def test_join_constructor():
     create_join_config()
     config = read_config(TEMP)
     assert config.field0 == 'a/b/c'
-

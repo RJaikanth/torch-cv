@@ -1,4 +1,5 @@
 import os
+
 import yaml
 
 from ._utils import DotDict
@@ -21,7 +22,6 @@ def read_config(yaml_path: str) -> DotDict:
 
     with open(yaml_path, "r") as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
-    print(config)
 
     if config is None:
         raise ValueError("Config file cannot be empty")

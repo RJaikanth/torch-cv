@@ -1,5 +1,3 @@
-import yaml
-
 TEMP = "/tmp/temp.yml"
 
 
