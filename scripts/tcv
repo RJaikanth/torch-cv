@@ -127,7 +127,7 @@ if [ -n "$PYTHON_FILE" ]; then
     python "$PYTHON_FILE"
     ;;
   esac
-  exit 1
+  exit 0
 fi
 
 # For in-built functions.
@@ -154,5 +154,5 @@ if [ -n "$FUNCTION" ]; then
     ;;
   esac
 
-  exit 1
+  exit 0
 fi
