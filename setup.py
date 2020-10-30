@@ -16,12 +16,12 @@ dependencies = [
 
 setup(
     name="torch-cv",
-    version="0.0.2",
+    version="0.1.0",
     author="Raghhuveer Jaikanth",
     author_email="raghhuveerj97@gmail.com",
     description="A high level package for Computer Vision with pytorch",
     long_description=long_description,
-    long_description_content_type="text/reStructuredText ",
+    long_description_content_type="text/x-rst ",
     url="https://github.com/RJaikanth/torch-cv",
     packages=find_packages(),
     classifiers=[
