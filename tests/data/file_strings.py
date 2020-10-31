@@ -7,39 +7,91 @@ field0: !join ["a", "b", "c"]
 """
 
 preprocess_config = """
-paths:
+# paths will be ignored by the prerpocessing engine
+base_paths:
     base: &base "/tmp/torch-cv-test/"
-    original_images: !join &orig_images [*base, "original_images/"]
-    resized_images: !join &resized_images [*base, "resized_images/"]
-    csv_path: !join &csv [*base, "csv/"]
-    metadata: !join &metadata [*base, "metadata/"]
+    original: &original !join [*base, "original/"]
+    preprocessed: &preprocessed !join [*base, "preprocessed/"]
 
-resize:
-     src: *orig_images
-     dest: *resized_images
-     size: 224
-     num_workers: -1
-     batch_size: 32
-     filetype: "jpg"
+folder_conventions:
+    csv: &csv "csv"
+    images: &images "images/"
+    annotations: &annotations "annotations"
+    metadata: &metadata "metadata"
 
-csv:
-     src: *resized_images
-     dest: *csv
-     filetype: "jpg"
-     test_split: 0.1
-     val_split: 0.1
+resize_with_annot:
+    image_src: !join [*original, *images]
+    annotation_src: !join [*original, *annotations]
+    dest: *preprocessed
+    image_type: "jpg"
+    size: 224
+    annotation_type: ""
+    image_folder: "images"
+    annotation_folder: "annotations"
+    num_workers: -1
+    batch_size: 32
+
+csv_with_annot:
+    image_src: !join [*preprocessed, *images]
+    annotations_src: !join [*preprocessed, *annotations]
+    dest: !join [*preprocessed, *csv]
+    image_type: "jpg"
+    annotations_type: ""
+    test_split: 0.1
+    val_split: 0.1
 
 label_map:
-    src: !join [*csv, "all.csv"]
-    dest: *metadata
+    src: !join [*preprocessed, *csv, "all.csv"]
+    dest: !join [*preprocessed, *metadata]
     target: "class"
 
 stats:
-    src: !join [*csv, "all.csv"]
-    dest: *metadata
+    src: !join [*preprocessed, *csv, "all.csv"]
+    dest: !join [*preprocessed, *metadata]
     num_workers: 8
     batch_size: 32
-    image_col: "path"
+    image_col: "image"
+"""
+
+preprocess_config_without_annotations = """
+# paths will be ignored by the prerpocessing engine
+base_paths:
+    base: &base "/tmp/torch-cv-test/"
+    original: &original !join [*base, "original/"]
+    preprocessed: &preprocessed !join [*base, "preprocessed/"]
+
+folder_conventions:
+    csv: &csv "csv"
+    images: &images "images/"
+    annotations: &annotations "annotations"
+    metadata: &metadata "metadata"
+
+resize:
+    src: !join [*original, *images]
+    dest: !join [*preprocessed, *images]
+    filetype: "jpg"
+    size: 224
+    num_workers: -1
+    batch_size: 32
+
+csv:
+    src: !join [*preprocessed, *images]
+    dest: !join [*preprocessed, *csv]
+    filetype: "jpg"
+    test_split: 0.1
+    val_split: 0.1
+
+label_map:
+    src: !join [*preprocessed, *csv, "all.csv"]
+    dest: !join [*preprocessed, *metadata]
+    target: "class"
+
+stats:
+    src: !join [*preprocessed, *csv, "all.csv"]
+    dest: !join [*preprocessed, *metadata]
+    num_workers: 8
+    batch_size: 32
+    image_col: "image"
 """
 
 dummy_preprocess = """
@@ -69,4 +121,32 @@ dummy:
 custom_preprocess_yml_fail = """
 dummy1: 
     dummy_var1: a
+"""
+
+base_xml = """
+<annotation>
+    <folder>02085620</folder>
+    <filename>n02085620_10074</filename>
+    <source>
+        <database>ImageNet database</database>
+    </source>
+    <size>
+        <width>333</width>
+        <height>500</height>
+        <depth>3</depth>
+    </size>
+    <segment>0</segment>
+    <object>
+        <name>Chihuahua</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>25</xmin>
+            <ymin>10</ymin>
+            <xmax>276</xmax>
+            <ymax>498</ymax>
+        </bndbox>
+    </object>
+</annotation>
 """

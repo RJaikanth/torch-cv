@@ -6,7 +6,8 @@ class BasePreprocessingClass:
     def __init__(self) -> None:
         pass
 
-    def _read_csv(self, path: str):
+    @staticmethod
+    def _read_csv(path: str):
         import pandas as pd
         return pd.read_csv(path)
 
@@ -23,6 +24,25 @@ class BasePreprocessingClass:
             categories += cat_list
 
         return images, categories
+
+    @staticmethod
+    def _get_lists_with_annotations(image_src: str, annotations_src: str,
+                                    image_type="jpg", annotations_type="xml"):
+        import glob
+
+        images, categories, annotations = [], [], []
+
+        for cat in glob.glob(image_src + "/*"):
+            images += sorted(glob.glob(cat + f"/*.{image_type}"))
+            categories += [os.path.basename(cat)] * len(glob.glob(cat + f"/*.{image_type}"))
+
+        for annot in glob.glob(annotations_src + "/*"):
+            if annotations_type == "":
+                annotations += sorted(glob.glob(annot + "/*"))
+            else:
+                annotations += sorted(glob.glob(annot + f"/*.{annotations_type}"))
+
+        return images, categories, annotations
 
     @staticmethod
     def _get_max_threads():

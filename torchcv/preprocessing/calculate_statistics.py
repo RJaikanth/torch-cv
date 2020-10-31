@@ -1,32 +1,15 @@
 import os
 
-import cv2
-import pandas as pd
 import torch
 from joblib import dump
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 
+from ._helpers import StatsHelper
 from .base import BasePreprocessingClass
 
 
-class StatsHelper(Dataset):
-    def __init__(self, src: pd.DataFrame, image_col: str = "path"):
-        self.images = src[image_col]
-
-    def __len__(self) -> int:
-        return len(self.images)
-
-    def __getitem__(self, item):
-        image = self.images[item]
-        image = cv2.imread(image)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = image.transpose(2, 1, 0)
-
-        return image / 255.
-
-
 class CalculateStats(BasePreprocessingClass):
-    def __init__(self, src: str, dest: str, num_workers: int = 1, batch_size: int = 32, image_col: str = "path"):
+    def __init__(self, src: str, dest: str, num_workers: int = 1, batch_size: int = 32, image_col: str = "image"):
         super(CalculateStats, self).__init__()
 
         df = self._read_csv(src)

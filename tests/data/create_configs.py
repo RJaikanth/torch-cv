@@ -24,7 +24,7 @@ def create_join_config():
         f.write(join_config)
 
 
-def create_preprocess_config():
+def create_preprocess_config_with_annotation():
     dest = os.path.join(default_dir, "preprocess.yml")
     with open(dest, "w") as f:
         f.write(preprocess_config)
@@ -40,3 +40,9 @@ def create_custom_preprocess_config_fail():
     dest = os.path.join(default_dir, "custom_preprocess_fail.yml")
     with open(dest, "w") as f:
         f.write(custom_preprocess_yml_fail)
+
+
+def create_preprocess_config():
+    dest = os.path.join(default_dir, "preprocess_without_annotation.yml")
+    with open(dest, "w") as f:
+        f.write(preprocess_config_without_annotations)

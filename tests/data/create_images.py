@@ -4,7 +4,7 @@ import random
 import cv2
 import numpy as np
 
-default_dir = "/tmp/torch-cv-test/original_images/"
+default_dir = "/tmp/torch-cv-test/original/images/"
 
 
 def create_temp_original():
