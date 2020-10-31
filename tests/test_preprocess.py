@@ -1,15 +1,17 @@
-import os
 import glob
-import pytest
+import os
 from subprocess import call
+
+import pytest
 
 CMD = "/tmp/.tox/python/bin/tcv"
 BASE = "/tmp/torch-cv-test/"
-CONFIG = "/tmp/torch-cv-test/config/preprocess.yml"
+CONFIG = "/tmp/torch-cv-test/config/"
 RESIZE_DIR = BASE + "resized_images/"
 ORIG_DIR = BASE + "original_images/"
 CSV_DIR = BASE + "csv/"
 META_DIR = BASE + "metadata/"
+CUSTOM = BASE + "custom/"
 
 
 @pytest.mark.run(order=4)
@@ -18,7 +20,7 @@ class TestPreprocess:
 
     def test_preprocess(self):
         """Preprocess call should return exit code 0"""
-        code = call(["sh", CMD, f"--config={CONFIG}", "--function=preprocess"])
+        code = call(["sh", CMD, f"--config={CONFIG}preprocess.yml", "--function=preprocess"])
         assert code == 0
 
     def test_resize_paths_exists(self):
@@ -78,6 +80,17 @@ class TestPreprocess:
         stats = load(META_DIR + "stats.pkl")
         assert all([round(a, 2) == round(b, 2) for a, b in zip(stats["mean"], [0.49756712, 0.49756174, 0.49749798])])
         assert all([round(a, 2) == round(b, 2) for a, b in zip(stats['std'], [0.13042611, 0.13163017, 0.12967862])])
+
+    def test_custom_preprocess(self):
+        """Custom Preprocessing Function should work"""
+        code = call(["sh", CMD, f"--config={CONFIG}custom_preprocess.yml", f"--file={CUSTOM}prep.py"])
+        assert code == 0
+
+    @pytest.mark.xfail
+    def test_custom_preprocess_fail(self):
+        """Custom Preprocessing Function should fail without proper config"""
+        code = call(["sh", CMD, f"--config={CONFIG}custom_preprocess_fail.yml", f"--file={CUSTOM}prep.py"])
+        assert code == 0
 
     def _get_num_images(self, src: str) -> int:
         """Helper"""

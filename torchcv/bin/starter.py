@@ -1,6 +1,6 @@
 import os
 
-from .preprocess import preprocess
+from .preprocess import preprocessor
 
 CONFIG = os.environ["CONFIG"]
 VERBOSE = os.environ["VERBOSE"]
@@ -9,7 +9,7 @@ FUNCTION = os.environ["FUNCTION"]
 
 def call():
     if FUNCTION == "preprocess":
-        preprocess(CONFIG)
+        preprocessor()
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ help() {
   echo "        --log_dir      :  [Optional] Path to log directory. Ignored if --log is not passed."
   echo ""
   echo "    -h  --help         :  Print help"
-  exit 1
+  exit 5
 }
 
 helpWithoutDescription() {
@@ -41,16 +41,16 @@ helpWithoutDescription() {
   echo "        --log_dir      :  [Optional] Path to log directory."
   echo ""
   echo "    -h  --help         :  Print help"
-  exit 1
+  exit 5
 }
 
 helpF() {
   echo "Invalid Argument passed to -f"
-echo "Usage: -f=[train|test|preprocess], --function=[train|test|preprocess]"
+  echo "Usage: -f=[train|test|preprocess], --function=[train|test|preprocess]"
   echo "    test              :  Calls the testing script"
   echo "    train_classifier  :  Calls the training script for classifier"
   echo "    preprocess        :  Calls the preprocessing script"
-  exit 1
+  exit 5
 }
 
 #######################################################
@@ -98,8 +98,8 @@ done
 
 # Version
 if [ "$VERSION" = "true" ]; then
-  pip freeze | grep torch-cv | cut -d'=' -f  3
-  exit 1
+  pip freeze | grep torch-cv | cut -d'=' -f 3
+  exit 5
 fi
 
 # Check Config
@@ -122,12 +122,14 @@ if [ -n "$PYTHON_FILE" ]; then
     echo "Logging to $LOG_PATH/run_$TIME.log"
     echo ""
     python "$PYTHON_FILE" 2>&1 | tee "$LOG_PATH/run_$TIME.log"
+    exit_code="$?"
     ;;
   false)
     python "$PYTHON_FILE"
+    exit_code="$?"
     ;;
   esac
-  exit 0
+  exit "$exit_code"
 fi
 
 # For in-built functions.
@@ -148,11 +150,12 @@ if [ -n "$FUNCTION" ]; then
     echo "Logging to $LOG_PATH/run_$TIME.log"
     echo ""
     python -m torchcv.bin.starter 2>&1 | tee "$LOG_PATH/run_$TIME.log"
-        ;;
+    exit_code=$?
+    ;;
   false)
     python -m torchcv.bin.starter
+    exit_code=$?
     ;;
   esac
-
-  exit 0
+  exit "$exit_code"
 fi

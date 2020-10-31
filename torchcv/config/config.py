@@ -1,4 +1,6 @@
 import os
+import sys
+import traceback
 
 import yaml
 
@@ -24,6 +26,10 @@ def read_config(yaml_path: str) -> DotDict:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
     if config is None:
-        raise ValueError("Config file cannot be empty")
+        try:
+            raise ValueError("Config file cannot be empty")
+        except:
+            traceback.print_exc()
+            sys.exit(5)
 
     return DotDict(config)

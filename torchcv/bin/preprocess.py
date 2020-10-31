@@ -1,18 +1,27 @@
+import os
+import traceback
+import sys
+
 from torchcv.engine import PREPROCESS_ENGINE
 from ..config import read_config
 
 
-def preprocess(config_path: str, engine: dict = PREPROCESS_ENGINE):
-    config = read_config(config_path)
+def preprocessor(engine: dict = PREPROCESS_ENGINE):
+    config = read_config(os.environ["CONFIG"])
 
     for function in config:
         if function == "paths":
             continue
         if function in engine.keys():
-            preprocessor = engine[function](**config[function])
-            print(preprocessor)
-            preprocessor()
+            preprocess_fn = engine[function](**config[function])
+            print(preprocess_fn)
+            preprocess_fn()
         else:
-            raise NotImplementedError(
-                "{} has not been implemented. Available preprocessing functions are {}".format(function, engine.keys())
-            )
+            try:
+                raise NotImplementedError(
+                    "{} has not been implemented. Available preprocessing functions are {}".format(function,
+                                                                                                   engine.keys())
+                )
+            except:
+                traceback.print_exc()
+                sys.exit(5)

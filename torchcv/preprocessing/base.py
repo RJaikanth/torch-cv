@@ -1,5 +1,5 @@
 import os
-from typing import AnyStr, Tuple
+from typing import Tuple
 
 
 class BasePreprocessingClass:
@@ -32,7 +32,8 @@ class BasePreprocessingClass:
         if n == -1:
             n = self._get_max_threads()
         else:
-            assert n <= self._get_max_threads(), "Number of Threads must be less than {}".format(self._get_max_threads())
+            assert n <= self._get_max_threads(), "Number of Threads must be less than {}".format(
+                self._get_max_threads())
             assert n > 0, "Number of threads should be at least 1"
 
         return n

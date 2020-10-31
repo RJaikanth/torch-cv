@@ -41,3 +41,32 @@ stats:
     batch_size: 32
     image_col: "path"
 """
+
+dummy_preprocess = """
+from torchcv.engine import PREPROCESS_ENGINE
+from torchcv.bin.preprocess import preprocessor
+from torchcv.preprocessing.base import BasePreprocessingClass
+
+class DummyFunction(BasePreprocessingClass):
+        def __init__(self, dummy_var1):
+                pass
+
+        def __call__(self):
+                print("Dummy Function called")
+
+        def __str__(self):
+                return "This is dummy test function"
+
+if __name__ == "__main__":
+        PREPROCESS_ENGINE['dummy'] = DummyFunction
+        preprocessor(PREPROCESS_ENGINE)"""
+
+custom_preprocess_yml = """
+dummy: 
+    dummy_var1: a
+"""
+
+custom_preprocess_yml_fail = """
+dummy1: 
+    dummy_var1: a
+"""

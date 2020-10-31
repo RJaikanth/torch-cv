@@ -1,6 +1,5 @@
 import os
 
-import pandas as pd
 from joblib import dump
 
 from .base import BasePreprocessingClass
