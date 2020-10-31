@@ -9,6 +9,8 @@ from .base import BasePreprocessingClass
 class CreateLabelMap(BasePreprocessingClass):
     def __init__(self, src: str, dest: str, target: str = "class"):
         super().__init__()
+
+        os.makedirs(dest, exist_ok=True)
         self.dest = dest
 
         self.df = self._read_csv(src)

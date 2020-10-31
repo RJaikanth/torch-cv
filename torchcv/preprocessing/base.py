@@ -4,13 +4,7 @@ from typing import AnyStr, Tuple
 
 class BasePreprocessingClass:
     def __init__(self) -> None:
-        self.verbose = os.environ["VERBOSE"]
-
-    def __call__(self, *args, **kwargs) -> None:
-        raise NotImplementedError("Call function has not been updated yet")
-
-    def __str__(self) -> AnyStr:
-        return "Base Preprocessing class"
+        pass
 
     def _read_csv(self, path: str):
         import pandas as pd

@@ -48,7 +48,7 @@ class CalculateStats(BasePreprocessingClass):
         mean = channel_sum / num_batches
         std = ((channel_sum_squared / num_batches) - mean ** 2) ** 0.5
 
-        dump({"mean": mean, "std": std}, os.path.join(self.dest, "stats.pkl"))
+        dump({"mean": mean.numpy(), "std": std.numpy()}, os.path.join(self.dest, "stats.pkl"))
         print("Time taken = {:0.3f}s\n".format(time.time() - start))
 
     def __str__(self):

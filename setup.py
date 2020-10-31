@@ -16,7 +16,7 @@ dependencies = [
 
 setup(
     name="torch-cv",
-    version="0.1.0",
+    version="0.1.1",
     author="Raghhuveer Jaikanth",
     author_email="raghhuveerj97@gmail.com",
     description="A high level package for Computer Vision with pytorch",

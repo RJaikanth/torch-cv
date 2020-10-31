@@ -20,8 +20,7 @@ class CreateCsv(BasePreprocessingClass):
         import time
         start = time.time()
 
-        if not os.path.exists(self.dest):
-            os.makedirs(self.dest)
+        os.makedirs(self.dest, exist_ok=True)
 
         csv_dict = {"path": self.images, "class": self.categories}
         all_ = pd.DataFrame(csv_dict)
